@@ -21,6 +21,36 @@ Conventional Commits形式に準拠したコミットメッセージを生成す
 
 **詳細:** [skills/commit-helper/SKILL.md](skills/commit-helper/SKILL.md)
 
+### 2. Start Work (`start-work`)
+
+GitHub Issueから作業を自動選択し、実装→テスト→PR作成まで一貫実行するワークフロースキル。
+
+**機能:**
+- オープンなIssueから優先度・サイズを考慮して自動選択
+- 技術調査・実装計画の自動立案
+- フィーチャーブランチの自動作成
+- 段階的実装サポート
+- PR自動作成
+
+**使用方法:** `/start-work`
+
+**詳細:** [skills/start-work/SKILL.md](skills/start-work/SKILL.md)
+
+### 3. Create Issue (`create-issue`)
+
+Issue品質チェック・作成ワークフローを実行するエージェントスキル。
+
+**機能:**
+- 対話的なIssue作成サポート
+- タイトル・ラベル・説明文の品質チェック
+- 必須項目の自動バリデーション
+- 親子チケット構造の提案
+- テンプレート自動選択
+
+**使用方法:** `/create-issue`
+
+**詳細:** [skills/create-issue/SKILL.md](skills/create-issue/SKILL.md)
+
 ## インストール
 
 ### 方法1: グローバル配置（推奨）
@@ -90,12 +120,16 @@ Claudeは自動的にConventional Commits形式でコミットメッセージを
 my-claude-skills/
 ├── README.md                          # このファイル
 ├── skills/                            # スキルディレクトリ
-│   └── commit-helper/                 # コミット支援スキル
-│       ├── SKILL.md                   # スキル定義（必須）
-│       ├── references/                # リファレンス資料
-│       │   └── conventional-commits-cheatsheet.md
-│       └── examples/                  # 使用例
-│           └── example-commits.md
+│   ├── commit-helper/                 # コミット支援スキル
+│   │   ├── SKILL.md                   # スキル定義（必須）
+│   │   ├── references/                # リファレンス資料
+│   │   │   └── conventional-commits-cheatsheet.md
+│   │   └── examples/                  # 使用例
+│   │       └── example-commits.md
+│   ├── start-work/                    # 作業開始ワークフロー
+│   │   └── SKILL.md                   # スキル定義
+│   └── create-issue/                  # Issue作成エージェント
+│       └── SKILL.md                   # スキル定義
 └── .gitignore                         # Git除外設定
 ```
 
@@ -193,3 +227,5 @@ MIT License
 ### 2025-12-29
 - 初回リリース
 - commit-helper スキル追加
+- start-work スキル追加（refeel/.claudeから汎用化）
+- create-issue スキル追加（refeel/.claudeから汎用化）
