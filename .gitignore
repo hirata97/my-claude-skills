@@ -28,3 +28,6 @@ yarn-error.log*
 # Personal notes
 notes.md
 TODO.md
+
+# Claude Code personal settings
+.claude/
