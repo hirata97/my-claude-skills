@@ -1,10 +1,22 @@
 # My Claude Skills
 
-個人用のClaude Codeカスタムスキルコレクション
+個人用のClaude Codeカスタマイゼーションコレクション
 
 ## 概要
 
-このリポジトリは、Claude Codeで使用するカスタムスキル（スラッシュコマンド）を管理するためのものです。各スキルは独立したディレクトリで管理され、プロジェクト間で再利用可能です。
+このリポジトリは、Claude Codeで使用するカスタムスキルとスラッシュコマンドを管理するためのものです。プロジェクト間で再利用可能な開発ワークフローを提供します。
+
+## スキル vs スラッシュコマンド
+
+### スキル（Skills）
+- **自動適用**: Claudeのコンテキストに常時読み込まれる
+- **用途**: ガイドライン、ルール、常時適用される知識
+- **配置**: `~/.claude/skills/`
+
+### スラッシュコマンド（Commands）
+- **明示的実行**: `/command-name` で呼び出し
+- **用途**: 特定のワークフロー、アクション
+- **配置**: `~/.claude/commands/`
 
 ## 含まれるスキル
 
@@ -21,9 +33,11 @@ Conventional Commits形式に準拠したコミットメッセージを生成す
 
 **詳細:** [skills/commit-helper/SKILL.md](skills/commit-helper/SKILL.md)
 
-### 2. Start Work (`start-work`)
+## 含まれるスラッシュコマンド
 
-GitHub Issueから作業を自動選択し、実装→テスト→PR作成まで一貫実行するワークフロースキル。
+### 1. Start Work (`/start-work`)
+
+GitHub Issueから作業を自動選択し、実装→テスト→PR作成まで一貫実行するワークフローコマンド。
 
 **機能:**
 - オープンなIssueから優先度・サイズを考慮して自動選択
@@ -32,13 +46,16 @@ GitHub Issueから作業を自動選択し、実装→テスト→PR作成まで
 - 段階的実装サポート
 - PR自動作成
 
-**使用方法:** `/start-work`
+**使用方法:**
+```bash
+/start-work
+```
 
-**詳細:** [skills/start-work/SKILL.md](skills/start-work/SKILL.md)
+**詳細:** [commands/start-work.md](commands/start-work.md)
 
-### 3. Create Issue (`create-issue`)
+### 2. Create Issue (`/create-issue`)
 
-Issue品質チェック・作成ワークフローを実行するエージェントスキル。
+Issue品質チェック・作成ワークフローを実行するエージェントコマンド。
 
 **機能:**
 - 対話的なIssue作成サポート
@@ -47,23 +64,27 @@ Issue品質チェック・作成ワークフローを実行するエージェン
 - 親子チケット構造の提案
 - テンプレート自動選択
 
-**使用方法:** `/create-issue`
+**使用方法:**
+```bash
+/create-issue
+```
 
-**詳細:** [skills/create-issue/SKILL.md](skills/create-issue/SKILL.md)
+**詳細:** [commands/create-issue.md](commands/create-issue.md)
 
 ## インストール
 
 ### 方法1: グローバル配置（推奨）
 
-全プロジェクトでスキルを使用する場合：
+全プロジェクトでスキルとコマンドを使用する場合：
 
 ```bash
 # リポジトリをクローン
 git clone <this-repository-url> my-claude-skills
 cd my-claude-skills
 
-# スキルをグローバルディレクトリにコピー
+# スキルとコマンドをグローバルディレクトリにコピー
 cp -r skills/* ~/.claude/skills/
+cp -r commands/* ~/.claude/commands/
 ```
 
 ### 方法2: プロジェクト固有配置
@@ -74,62 +95,71 @@ cp -r skills/* ~/.claude/skills/
 # プロジェクトディレクトリで実行
 cd /path/to/your/project
 
-# スキルをプロジェクトディレクトリにコピー
+# スキルとコマンドをプロジェクトディレクトリにコピー
 cp -r /path/to/my-claude-skills/skills/* .claude/skills/
+cp -r /path/to/my-claude-skills/commands/* .claude/commands/
 ```
 
 ### 方法3: シンボリックリンク
 
-スキルの更新を自動反映させる場合：
+更新を自動反映させる場合：
 
 ```bash
 # グローバル配置の場合
 ln -s /path/to/my-claude-skills/skills/* ~/.claude/skills/
+ln -s /path/to/my-claude-skills/commands/* ~/.claude/commands/
 
 # プロジェクト固有の場合
 ln -s /path/to/my-claude-skills/skills/* /path/to/project/.claude/skills/
+ln -s /path/to/my-claude-skills/commands/* /path/to/project/.claude/commands/
 ```
 
 ## 使用方法
 
-### スキルの有効化確認
+### スキルの使用（自動適用）
 
-Claude Codeでスキルが読み込まれているか確認：
+スキルは自動的にClaude Codeのコンテキストに読み込まれます。
 
-```bash
-# Claude Codeのセッションで確認
-# スキルは自動的に読み込まれます
-```
-
-### スキルの使用
-
-スキルは自動的にClaude Codeのコンテキストに読み込まれます。特定のスキルを明示的に呼び出す必要はなく、Claude Codeが自動的に適用します。
-
-例えば、`commit-helper` スキルが有効な場合：
-
+**例**: `commit-helper` スキル
 ```bash
 # Claudeにコミット作成を依頼
 > git commitを作成して
 ```
+→ 自動的にConventional Commits形式でコミットメッセージを生成
 
-Claudeは自動的にConventional Commits形式でコミットメッセージを生成します。
+### スラッシュコマンドの使用（明示的実行）
+
+スラッシュコマンドは明示的に呼び出します。
+
+**例**: `/start-work` コマンド
+```bash
+# Claude Codeで実行
+/start-work
+```
+→ Issue自動選択→実装→PR作成のワークフローを開始
+
+**例**: `/create-issue` コマンド
+```bash
+# Claude Codeで実行
+/create-issue
+```
+→ Issue品質チェック・作成ワークフローを開始
 
 ## ディレクトリ構造
 
 ```
 my-claude-skills/
 ├── README.md                          # このファイル
-├── skills/                            # スキルディレクトリ
-│   ├── commit-helper/                 # コミット支援スキル
-│   │   ├── SKILL.md                   # スキル定義（必須）
-│   │   ├── references/                # リファレンス資料
-│   │   │   └── conventional-commits-cheatsheet.md
-│   │   └── examples/                  # 使用例
-│   │       └── example-commits.md
-│   ├── start-work/                    # 作業開始ワークフロー
-│   │   └── SKILL.md                   # スキル定義
-│   └── create-issue/                  # Issue作成エージェント
-│       └── SKILL.md                   # スキル定義
+├── skills/                            # スキル（自動適用）
+│   └── commit-helper/                 # コミット支援スキル
+│       ├── SKILL.md                   # スキル定義（必須）
+│       ├── references/                # リファレンス資料
+│       │   └── conventional-commits-cheatsheet.md
+│       └── examples/                  # 使用例
+│           └── example-commits.md
+├── commands/                          # スラッシュコマンド（明示的実行）
+│   ├── start-work.md                  # 作業開始ワークフロー
+│   └── create-issue.md                # Issue作成エージェント
 └── .gitignore                         # Git除外設定
 ```
 
@@ -226,6 +256,7 @@ MIT License
 
 ### 2025-12-29
 - 初回リリース
-- commit-helper スキル追加
-- start-work スキル追加（refeel/.claudeから汎用化）
-- create-issue スキル追加（refeel/.claudeから汎用化）
+- commit-helper スキル追加（自動適用）
+- start-work スラッシュコマンド追加（refeel/.claudeから汎用化）
+- create-issue スラッシュコマンド追加（refeel/.claudeから汎用化）
+- スキルとコマンドの明確な分離
