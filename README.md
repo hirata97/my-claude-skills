@@ -145,6 +145,176 @@ ln -s /path/to/my-claude-skills/commands/* /path/to/project/.claude/commands/
 ```
 → Issue品質チェック・作成ワークフローを開始
 
+## 他リポジトリでの使用手順
+
+### グローバル配置している場合（推奨）
+
+グローバル配置（`~/.claude/`）を使用している場合、**追加設定不要**で全プロジェクトで利用可能です。
+
+```bash
+# 任意のプロジェクトに移動
+cd /path/to/your/project
+
+# Claude Codeを起動
+# スキルとコマンドは自動的に利用可能
+
+# スラッシュコマンドを実行
+/start-work
+/create-issue
+```
+
+### 既存プロジェクトでの確認
+
+#### 1. スキル・コマンドの確認
+
+```bash
+# グローバル配置の確認
+ls -la ~/.claude/skills/
+ls -la ~/.claude/commands/
+
+# プロジェクト固有の確認（存在する場合）
+ls -la /path/to/project/.claude/skills/
+ls -la /path/to/project/.claude/commands/
+```
+
+#### 2. プロジェクトでの動作確認
+
+```bash
+cd /path/to/your/project
+
+# Claude Codeを起動して確認
+# - コミット作成時に自動的にConventional Commits形式が適用されるか
+# - /start-work コマンドが認識されるか
+# - /create-issue コマンドが認識されるか
+```
+
+### プロジェクト固有の設定（オプション）
+
+特定のプロジェクトでのみカスタマイズしたい場合：
+
+#### ステップ1: プロジェクト固有ディレクトリ作成
+
+```bash
+cd /path/to/your/project
+mkdir -p .claude/skills
+mkdir -p .claude/commands
+```
+
+#### ステップ2: コマンドのコピーまたはカスタマイズ
+
+```bash
+# グローバル版をコピー
+cp ~/.claude/commands/start-work.md .claude/commands/
+cp ~/.claude/commands/create-issue.md .claude/commands/
+
+# プロジェクト固有にカスタマイズ
+vim .claude/commands/start-work.md
+```
+
+#### ステップ3: .gitignoreの設定
+
+```bash
+# プロジェクトの.gitignoreに追加（個人設定の場合）
+echo ".claude/settings.local.json" >> .gitignore
+
+# チーム共有する場合は.gitignoreに追加しない
+```
+
+### 実践例
+
+#### 例1: refeelプロジェクト
+
+```bash
+cd /home/mizuki/projects/refeel
+
+# グローバルコマンドが利用可能
+/start-work      # ✅ Issue自動選択→実装→PR
+/create-issue    # ✅ Issue品質チェック・作成
+
+# コミット時に自動適用
+git commit       # ✅ Conventional Commits形式で作成
+```
+
+#### 例2: personal-portfolio
+
+```bash
+cd /home/mizuki/projects/personal-portfolio
+
+# 同様にグローバルコマンドが利用可能
+/start-work      # ✅ ポートフォリオのIssue管理
+/create-issue    # ✅ Issue作成
+```
+
+#### 例3: 新規プロジェクト
+
+```bash
+# 新しいプロジェクトを作成
+mkdir new-project
+cd new-project
+git init
+
+# Claude Codeを起動
+# スキル・コマンドは自動的に利用可能（グローバル配置済み）
+
+# すぐにワークフローを開始
+/create-issue    # Issue作成
+/start-work      # 作業開始
+```
+
+### プロジェクト固有のカスタマイズ例
+
+プロジェクトごとに異なる設定が必要な場合：
+
+```bash
+cd /path/to/project
+
+# プロジェクト固有のコマンドを作成
+cat > .claude/commands/custom-workflow.md << 'EOF'
+---
+description: このプロジェクト専用のカスタムワークフロー
+---
+
+# Custom Workflow
+
+[プロジェクト固有の手順を記述]
+EOF
+```
+
+### 優先順位
+
+Claude Codeは以下の優先順位で設定を読み込みます：
+
+1. **プロジェクト固有** (`.claude/`) - 最優先
+2. **グローバル** (`~/.claude/`) - フォールバック
+
+プロジェクト固有の設定がある場合、グローバル設定より優先されます。
+
+### トラブルシューティング
+
+#### コマンドが認識されない場合
+
+```bash
+# 1. グローバル配置を確認
+ls -la ~/.claude/commands/
+
+# 2. ファイルが存在するか確認
+cat ~/.claude/commands/start-work.md
+
+# 3. Claude Codeを再起動
+```
+
+#### スキルが適用されない場合
+
+```bash
+# 1. スキルファイルを確認
+cat ~/.claude/skills/commit-helper/SKILL.md
+
+# 2. YAMLメタデータを確認
+# enabled: true になっているか
+
+# 3. Claude Codeを再起動
+```
+
 ## ディレクトリ構造
 
 ```
