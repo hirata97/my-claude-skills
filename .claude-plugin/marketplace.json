@@ -15,12 +15,12 @@
     },
     {
       "name": "start-work",
-      "source": "./commands/start-work.md",
+      "source": "./commands/start-work",
       "description": "オープンなIssueから自動選択し、実装からPR作成まで一貫実行"
     },
     {
       "name": "create-issue",
-      "source": "./commands/create-issue.md",
+      "source": "./commands/create-issue",
       "description": "Issue品質チェック・作成ワークフロー（標準準拠）"
     }
   ]
