@@ -1,27 +1,25 @@
 {
-  "name": "My Claude Skills",
+  "name": "my-claude-skills",
   "description": "個人用のClaude Codeカスタマイゼーションコレクション（スキル・コマンド）",
   "version": "1.0.0",
-  "author": "Hirata Mizuki",
-  "skills": [
+  "owner": "hirata97",
+  "plugins": [
     {
       "id": "commit-helper",
-      "name": "Commit Helper",
+      "name": "commit-helper",
       "description": "Conventional Commits形式のコミットメッセージ生成支援スキル",
       "location": "user",
       "path": "skills/commit-helper"
-    }
-  ],
-  "commands": [
+    },
     {
       "id": "start-work",
-      "name": "Start Work",
+      "name": "start-work",
       "description": "オープンなIssueから自動選択し、実装からPR作成まで一貫実行",
       "path": "commands/start-work.md"
     },
     {
       "id": "create-issue",
-      "name": "Create Issue",
+      "name": "create-issue",
       "description": "Issue品質チェック・作成ワークフロー（標準準拠）",
       "path": "commands/create-issue.md"
     }
