@@ -65,6 +65,25 @@ Issue品質チェック・作成ワークフローを実行するエージェン
 
 **詳細:** [commands/create-issue.md](commands/create-issue.md)
 
+### 3. Auto Performance Tuning (`/auto-perf-tuning`)
+
+パフォーマンス改善作業を自動的に実行するワークフローコマンド。
+
+**機能:**
+- 並列サブエージェントによる多角的な調査
+- ボトルネック自動特定
+- 測定可能な改善の実装
+- ベンチマーク検証
+- ローカルレビュー
+- Draft PR自動作成
+
+**使用方法:**
+```bash
+/auto-perf-tuning
+```
+
+**詳細:** [commands/auto-perf-tuning/COMMAND.md](commands/auto-perf-tuning/COMMAND.md)
+
 ## インストール
 
 ### 方法1: グローバル配置（推奨）
@@ -125,6 +144,13 @@ cp -r /path/to/my-claude-skills/commands/* .claude/commands/
 ```
 → Issue品質チェック・作成ワークフローを開始
 
+**例**: `/auto-perf-tuning` コマンド
+```bash
+# Claude Codeで実行
+/auto-perf-tuning
+```
+→ パフォーマンス改善の自動調査・実装・検証・PR作成を開始
+
 ## 他リポジトリでの使用手順
 
 ### グローバル配置している場合（推奨）
@@ -141,6 +167,7 @@ cd /path/to/your/project
 # スラッシュコマンドを実行
 /start-work
 /create-issue
+/auto-perf-tuning
 ```
 
 ### プロジェクト固有のカスタマイズ例
@@ -184,8 +211,12 @@ my-claude-skills/
 │       └── examples/                  # 使用例
 │           └── example-commits.md
 ├── commands/                          # スラッシュコマンド（明示的実行）
-│   ├── start-work.md                  # 作業開始ワークフロー
-│   └── create-issue.md                # Issue作成エージェント
+│   ├── start-work/                    # 作業開始ワークフロー
+│   │   └── COMMAND.md
+│   ├── create-issue/                  # Issue作成エージェント
+│   │   └── COMMAND.md
+│   └── auto-perf-tuning/              # パフォーマンス改善自動化
+│       └── COMMAND.md
 └── .gitignore                         # Git除外設定
 ```
 
@@ -229,6 +260,22 @@ cp -r skills/my-new-skill ~/.claude/skills/
 ### 参考リポジトリ
 - [anthropics/skills](https://github.com/anthropics/skills) - 公式スキル集
 - [wshobson/commands](https://github.com/wshobson/commands) - コミュニティスキル集
+
+## ライセンス
+
+MIT License
+
+## 貢献
+
+個人用リポジトリですが、アイデアや改善提案は歓迎します。
+
+## 更新履歴
+
+### 2026-05-16
+- auto-perf-tuning スラッシュコマンド追加
+  - パフォーマンス改善作業の自動化
+  - 並列サブエージェントによる調査
+  - ベンチマーク検証とローカルレビュー
 
 ### 2025-12-29
 - 初回リリース
